@@ -162,6 +162,7 @@ class _CupertinoButtonState extends State<CupertinoButton> with SingleTickerProv
   bool _buttonHeldDown = false;
 
   void _handleTapDown(TapDownDetails event) {
+//    print('jike button--${this.hashCode} _handleTapDown $_buttonHeldDown');
     if (!_buttonHeldDown) {
       _buttonHeldDown = true;
       _animate();
@@ -169,6 +170,7 @@ class _CupertinoButtonState extends State<CupertinoButton> with SingleTickerProv
   }
 
   void _handleTapUp(TapUpDetails event) {
+//    print('jike button--${this.hashCode} _handleTapUp $_buttonHeldDown');
     if (_buttonHeldDown) {
       _buttonHeldDown = false;
       _animate();
@@ -176,6 +178,7 @@ class _CupertinoButtonState extends State<CupertinoButton> with SingleTickerProv
   }
 
   void _handleTapCancel() {
+//    print('jike button--${this.hashCode} _handleTapCancel $_buttonHeldDown');
     if (_buttonHeldDown) {
       _buttonHeldDown = false;
       _animate();
@@ -183,6 +186,7 @@ class _CupertinoButtonState extends State<CupertinoButton> with SingleTickerProv
   }
 
   void _animate() {
+//    print('jike button--${this.hashCode} _animate ${_animationController.isAnimating}');
     if (_animationController.isAnimating)
       return;
     final bool wasHeldDown = _buttonHeldDown;
@@ -190,6 +194,7 @@ class _CupertinoButtonState extends State<CupertinoButton> with SingleTickerProv
         ? _animationController.animateTo(1.0, duration: kFadeOutDuration)
         : _animationController.animateTo(0.0, duration: kFadeInDuration);
     ticker.then<void>((void value) {
+//      print('jike button--${this.hashCode} _animate --ticker.then --$mounted --$wasHeldDown $_buttonHeldDown --${mounted && wasHeldDown != _buttonHeldDown}');
       if (mounted && wasHeldDown != _buttonHeldDown)
         _animate();
     });

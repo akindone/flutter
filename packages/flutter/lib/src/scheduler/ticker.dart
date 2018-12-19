@@ -85,6 +85,7 @@ class Ticker {
   /// created the [Ticker] (typically a [TickerProvider]), not the object that
   /// listens to the ticker's ticks.
   set muted(bool value) {
+//    print('jike Ticker--${this.hashCode} muted $value');
     if (value == muted)
       return;
     _muted = value;
@@ -143,6 +144,7 @@ class Ticker {
   /// By convention, this method is used by the object that receives the ticks
   /// (as opposed to the [TickerProvider] which created the ticker).
   TickerFuture start() {
+//    print('jike Ticker--${this.hashCode} start $shouldScheduleTick');
     assert(() {
       if (isActive) {
         throw FlutterError(
@@ -179,6 +181,8 @@ class Ticker {
   /// By convention, this method is used by the object that receives the ticks
   /// (as opposed to the [TickerProvider] which created the ticker).
   void stop({ bool canceled = false }) {
+//    print('jike Ticker--${this.hashCode} stop $canceled');
+
     if (!isActive)
       return;
 
@@ -225,6 +229,8 @@ class Ticker {
     _animationId = null;
 
     _startTime ??= timeStamp;
+//    print('jike Ticker--${this.hashCode} _tick $timeStamp');
+
     _onTick(timeStamp - _startTime);
 
     // The onTick callback may have scheduled another tick already, for
@@ -240,6 +246,7 @@ class Ticker {
   void scheduleTick({ bool rescheduling = false }) {
     assert(!scheduled);
     assert(shouldScheduleTick);
+//    print('jike Ticker--${this.hashCode} scheduleTick $rescheduling');
     _animationId = SchedulerBinding.instance.scheduleFrameCallback(_tick, rescheduling: rescheduling);
   }
 
@@ -251,6 +258,7 @@ class Ticker {
   /// true if no tick was scheduled.
   @protected
   void unscheduleTick() {
+//    print('jike Ticker--${this.hashCode} unscheduleTick');
     if (scheduled) {
       SchedulerBinding.instance.cancelFrameCallbackWithId(_animationId);
       _animationId = null;
@@ -268,6 +276,7 @@ class Ticker {
   ///
   /// This ticker must not be active when this method is called.
   void absorbTicker(Ticker originalTicker) {
+//    print('jike Ticker--${this.hashCode} absorbTicker');
     assert(!isActive);
     assert(_future == null);
     assert(_startTime == null);
@@ -288,6 +297,7 @@ class Ticker {
   /// after this method is called.
   @mustCallSuper
   void dispose() {
+//    print('jike Ticker--${this.hashCode} dispose');
     if (_future != null) {
       final TickerFuture localFuture = _future;
       _future = null;
@@ -358,6 +368,7 @@ class TickerFuture implements Future<void> {
   /// duration, but which still need to represent the completed animation in the
   /// form of a [TickerFuture].
   TickerFuture.complete() {
+//    print('jike TickerFuture--${this.hashCode} complete');
     _complete();
   }
 
@@ -367,6 +378,7 @@ class TickerFuture implements Future<void> {
 
   void _complete() {
     assert(_completed == null);
+//    print('jike TickerFuture--${this.hashCode} _complete');
     _completed = true;
     _primaryCompleter.complete(null);
     _secondaryCompleter?.complete(null);
@@ -374,6 +386,7 @@ class TickerFuture implements Future<void> {
 
   void _cancel(Ticker ticker) {
     assert(_completed == null);
+//    print('jike TickerFuture--${this.hashCode} _cancel ticker--${ticker.hashCode}');
     _completed = false;
     _secondaryCompleter?.completeError(TickerCanceled(ticker));
   }
@@ -385,6 +398,7 @@ class TickerFuture implements Future<void> {
   /// future, so even if the [orCancel] property is accessed, canceling the
   /// ticker will not cause an uncaught exception in the current zone.
   void whenCompleteOrCancel(VoidCallback callback) {
+//    print('jike TickerFuture--${this.hashCode} whenCompleteOrCancel');
     void thunk(dynamic value) {
       callback();
     }
@@ -400,6 +414,7 @@ class TickerFuture implements Future<void> {
   /// getter will complete with an error, and if that error is not caught, there
   /// will be an uncaught exception in the current zone.
   Future<void> get orCancel {
+//    print('jike TickerFuture--${this.hashCode} orCancel');
     if (_secondaryCompleter == null) {
       _secondaryCompleter = Completer<void>();
       if (_completed != null) {
@@ -415,26 +430,31 @@ class TickerFuture implements Future<void> {
 
   @override
   Stream<void> asStream() {
+//    print('jike TickerFuture--${this.hashCode} asStream');
     return _primaryCompleter.future.asStream();
   }
 
   @override
   Future<void> catchError(Function onError, { bool test(dynamic error) }) {
+//    print('jike TickerFuture--${this.hashCode} catchError');
     return _primaryCompleter.future.catchError(onError, test: test);
   }
 
   @override
   Future<E> then<E>(dynamic f(void value), { Function onError }) {
+//    print('jike TickerFuture--${this.hashCode} then');
     return _primaryCompleter.future.then<E>(f, onError: onError);
   }
 
   @override
   Future<void> timeout(Duration timeLimit, { dynamic onTimeout() }) {
+//    print('jike TickerFuture--${this.hashCode} timeout $timeLimit');
     return _primaryCompleter.future.timeout(timeLimit, onTimeout: onTimeout);
   }
 
   @override
   Future<void> whenComplete(dynamic action()) {
+//    print('jike TickerFuture--${this.hashCode} whenComplete');
     return _primaryCompleter.future.whenComplete(action);
   }
 

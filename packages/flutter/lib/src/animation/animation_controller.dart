@@ -644,7 +644,7 @@ class AnimationController extends Animation<double>
   ///    and which does send notifications.
   ///  * [forward], [reverse], [animateTo], [animateWith], [fling], and [repeat],
   ///    which restart the animation controller.
-  void stop({ bool canceled = true }) {
+  void stop({ bool canceled = true }) { // jike may called when ios pull right to last page
     _simulation = null;
     _lastElapsedDuration = null;
     _ticker.stop(canceled: canceled);
