@@ -170,7 +170,7 @@ class TapGestureRecognizer extends PrimaryPointerGestureRecognizer {
 
   @override
   void handlePrimaryPointer(PointerEvent event) {
-    print('jike TapGestureRecognizer--${this.hashCode} handlePrimaryPointer ${event.runtimeType}');
+//    print('jike TapGestureRecognizer--${this.hashCode} handlePrimaryPointer ${event.runtimeType}');
     if (event is PointerUpEvent) {
       _finalPosition = event.position;
       _checkUp();
@@ -185,7 +185,7 @@ class TapGestureRecognizer extends PrimaryPointerGestureRecognizer {
 
   @override
   void resolve(GestureDisposition disposition) {
-    print('jike TapGestureRecognizer--${this.hashCode} resolve $_wonArenaForPrimaryPointer ${disposition.toString()}');
+//    print('jike TapGestureRecognizer--${this.hashCode} resolve $_wonArenaForPrimaryPointer ${disposition.toString()}');
     if (_wonArenaForPrimaryPointer && disposition == GestureDisposition.rejected) {
       // This can happen if the superclass decides the primary pointer
       // exceeded the touch slop, or if the recognizer is disposed.
@@ -198,14 +198,14 @@ class TapGestureRecognizer extends PrimaryPointerGestureRecognizer {
 
   @override
   void didExceedDeadline() {
-    print('jike TapGestureRecognizer--${this.hashCode} didExceedDeadline');
+//    print('jike TapGestureRecognizer--${this.hashCode} didExceedDeadline');
     _checkDown();
   }
 
   @override
   void acceptGesture(int pointer) {
     super.acceptGesture(pointer);
-    print('jike TapGestureRecognizer--${this.hashCode} acceptGesture $pointer ${pointer == primaryPointer}');
+//    print('jike TapGestureRecognizer--${this.hashCode} acceptGesture $pointer ${pointer == primaryPointer}');
     if (pointer == primaryPointer) {
       _checkDown();
       _wonArenaForPrimaryPointer = true;
@@ -216,7 +216,7 @@ class TapGestureRecognizer extends PrimaryPointerGestureRecognizer {
   @override
   void rejectGesture(int pointer) {
     super.rejectGesture(pointer);
-    print('jike TapGestureRecognizer--${this.hashCode} acceptGesture ${pointer == primaryPointer}');
+//    print('jike TapGestureRecognizer--${this.hashCode} acceptGesture ${pointer == primaryPointer}');
     if (pointer == primaryPointer) {
       // Another gesture won the arena.
       assert(state != GestureRecognizerState.possible);
@@ -227,7 +227,7 @@ class TapGestureRecognizer extends PrimaryPointerGestureRecognizer {
   }
 
   void _checkDown() {
-    print('jike TapGestureRecognizer--${this.hashCode} _checkDown $_sentTapDown');
+//    print('jike TapGestureRecognizer--${this.hashCode} _checkDown $_sentTapDown');
     if (!_sentTapDown) {
       if (onTapDown != null)
         invokeCallback<void>('onTapDown', () { onTapDown(TapDownDetails(globalPosition: initialPosition)); });
@@ -236,11 +236,11 @@ class TapGestureRecognizer extends PrimaryPointerGestureRecognizer {
   }
 
   void _checkUp() {
-    print('jike TapGestureRecognizer--${this.hashCode} _checkUp $_wonArenaForPrimaryPointer $_finalPosition');
+//    print('jike TapGestureRecognizer--${this.hashCode} _checkUp $_wonArenaForPrimaryPointer $_finalPosition');
     if (_wonArenaForPrimaryPointer && _finalPosition != null) {
       resolve(GestureDisposition.accepted);
       if (!_wonArenaForPrimaryPointer || _finalPosition == null) {
-        print('jike TapGestureRecognizer--${this.hashCode} _checkUp return 111');
+//        print('jike TapGestureRecognizer--${this.hashCode} _checkUp return 111');
         // It is possible that resolve has just recursively called _checkUp
         // (see https://github.com/flutter/flutter/issues/12470).
         // In that case _wonArenaForPrimaryPointer will be false (as _checkUp
@@ -248,7 +248,7 @@ class TapGestureRecognizer extends PrimaryPointerGestureRecognizer {
         // tap callbacks.
         return;
       }
-      print('jike TapGestureRecognizer--${this.hashCode} _checkUp onTapUp onTap');
+//      print('jike TapGestureRecognizer--${this.hashCode} _checkUp onTapUp onTap');
       if (onTapUp != null)
         invokeCallback<void>('onTapUp', () { onTapUp(TapUpDetails(globalPosition: _finalPosition)); });
       if (onTap != null)
@@ -258,7 +258,7 @@ class TapGestureRecognizer extends PrimaryPointerGestureRecognizer {
   }
 
   void _reset() {
-    print('jike TapGestureRecognizer--${this.hashCode} _reset');
+//    print('jike TapGestureRecognizer--${this.hashCode} _reset');
 
     _sentTapDown = false;
     _wonArenaForPrimaryPointer = false;
